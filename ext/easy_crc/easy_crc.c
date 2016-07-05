@@ -145,17 +145,22 @@ easy_crc_crc32_cleanup(VALUE p)
 }
 
 static VALUE
-easy_crc_crc32(VALUE self, VALUE path)
+easy_crc_crc32(VALUE self, VALUE path, VALUE seed)
 {
   easy_crc32_params params;
   VALUE vparams;
 
   if(TYPE(path) != T_STRING)
     rb_raise(rb_eTypeError, "invalid type for path name");
+  if(TYPE(seed) != T_FIXNUM)
+    rb_raise(rb_eTypeError, "invalid type for seed");
 
   params.path  = StringValueCStr(path);
   params.fd    = NULL;
-  params.crc   = 0;
+  if(seed == Qnil)
+    params.crc   = 0;
+  else
+    params.crc   = FIX2LONG(seed);
   params.error = 0;
   params.stop  = false;
 
@@ -163,7 +168,7 @@ easy_crc_crc32(VALUE self, VALUE path)
 
   rb_ensure(easy_crc_crc32_start, vparams, easy_crc_crc32_cleanup, vparams);
 
-  if(params.error == 1) 
+  if(params.error == 1)
     rb_raise(rb_eIOError, "failed to open file");
 
   if(params.error == 2)
@@ -180,5 +185,5 @@ Init_easy_crc()
 {
   VALUE mEasyCrc;
   mEasyCrc = rb_define_module("EasyCRC");
-  rb_define_module_function(mEasyCrc, "crc32", easy_crc_crc32, 1);
+  rb_define_module_function(mEasyCrc, "_crc32", easy_crc_crc32, 2);
 }
