@@ -8,9 +8,9 @@ Gem::Specification.new do |s|
   s.summary       = 'GIL-free CRC32 checksums of files'
   s.description   = 'EasyCRC let\'s you calculate CRC32 checksums of files without locking the whole Ruby process'
 
-  s.authors       = ['FlavourSys Technology GmbH']
-  s.email         = 'technology@flavoursys.com'
-  s.homepage      = 'http://github.com/flavoursys/easy-crc'
+  s.authors       = ['Projective Technology GmbH']
+  s.email         = 'technology@projective.io'
+  s.homepage      = 'https://github.com/projectivetech/easy-crc'
 
   s.extensions    = ['ext/easy_crc/extconf.rb']
   s.require_paths = ['lib']
